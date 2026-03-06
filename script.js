@@ -437,7 +437,7 @@ function submitOrder() {
   // EmailJS integration
   const EMAILJS_PUBLIC_KEY = "qId7LYirAJei2KgDK";
   const EMAILJS_SERVICE_ID = "service_leifomr";
-  const EMAILJS_TEMPLATE_ID = "template_zki534c";
+  const EMAILJS_TEMPLATE_ID = "template_rhxc4rr";
 
   const templateParams = {
     customer_name: name,
