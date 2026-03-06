@@ -157,7 +157,6 @@ function showToast(message) {
   const toast = document.createElement("div");
   toast.className = "toast-notification";
   toast.textContent = message;
-  toast.style.cssText = "position:fixed;bottom:2rem;right:2rem;background:#e91e63;color:#fff;padding:0.75rem 1.5rem;border-radius:8px;font-weight:600;z-index:9999;opacity:0;transition:opacity 0.3s ease;";
   document.body.appendChild(toast);
 
   requestAnimationFrame(() => { toast.style.opacity = "1"; });
@@ -256,36 +255,79 @@ function submitOrder() {
   const instructions = document.getElementById("special-instructions").value.trim();
   const deliveryFee = deliveryFees[deliveryMethod.value] || 0;
   const subtotal = cart.reduce((sum, c) => sum + c.price * c.qty, 0);
+  const total = subtotal + deliveryFee;
 
-  const order = {
-    customer: { name, phone },
-    items: cart.map(c => ({ name: c.name, qty: c.qty, price: c.price, total: c.price * c.qty })),
-    delivery: { method: deliveryLabel, fee: deliveryFee },
-    date,
-    instructions,
-    subtotal,
-    total: subtotal + deliveryFee,
+  const itemsList = cart.map(c => `${c.name} x${c.qty} — $${(c.price * c.qty).toFixed(2)}`).join("\n");
+
+  const submitBtn = document.querySelector('#order-form button[type="submit"]');
+  submitBtn.disabled = true;
+  submitBtn.textContent = "Sending...";
+
+  // EmailJS integration
+  // To set up: Create free account at emailjs.com, then replace these 3 values:
+  //   1. PUBLIC_KEY — from EmailJS dashboard > Account > API Keys
+  //   2. SERVICE_ID — from EmailJS dashboard > Email Services (connect Gmail/Outlook)
+  //   3. TEMPLATE_ID — from EmailJS dashboard > Email Templates (create template with variables below)
+  //
+  // Template variables available: customer_name, customer_phone, items_list, delivery_method,
+  //   delivery_fee, subtotal, total, order_date, special_instructions
+
+  const EMAILJS_PUBLIC_KEY = "YOUR_PUBLIC_KEY";   // TODO: Replace with real key
+  const EMAILJS_SERVICE_ID = "YOUR_SERVICE_ID";   // TODO: Replace with real service ID
+  const EMAILJS_TEMPLATE_ID = "YOUR_TEMPLATE_ID"; // TODO: Replace with real template ID
+
+  const templateParams = {
+    customer_name: name,
+    customer_phone: phone,
+    items_list: itemsList,
+    delivery_method: deliveryLabel,
+    delivery_fee: `$${deliveryFee.toFixed(2)}`,
+    subtotal: `$${subtotal.toFixed(2)}`,
+    total: `$${total.toFixed(2)}`,
+    order_date: date,
+    special_instructions: instructions || "None",
   };
 
-  console.log("Order submitted:", order);
+  // If EmailJS is not configured yet, skip the API call and show confirmation
+  if (EMAILJS_PUBLIC_KEY === "YOUR_PUBLIC_KEY") {
+    console.log("EmailJS not configured yet. Order details:", templateParams);
+    showConfirmation(name, date, deliveryLabel, total);
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Submit Order";
+    return;
+  }
 
-  // Confirmation overlay
+  emailjs.init(EMAILJS_PUBLIC_KEY);
+  emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
+    .then(() => {
+      showConfirmation(name, date, deliveryLabel, total);
+    })
+    .catch((err) => {
+      console.error("EmailJS error:", err);
+      showToast("Something went wrong. Please DM @kaylas_desserts_05 on Instagram to place your order.");
+    })
+    .finally(() => {
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Submit Order";
+    });
+}
+
+function showConfirmation(name, date, deliveryLabel, total) {
   const overlay = document.createElement("div");
   overlay.className = "order-confirmation";
-  overlay.style.cssText = "position:fixed;inset:0;background:rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:center;z-index:10000;";
   overlay.innerHTML = `
-    <div class="confirmation-content" style="background:#fff;padding:2.5rem;border-radius:16px;text-align:center;max-width:450px;margin:1rem;">
-      <h2>Order Submitted! 🎉</h2>
-      <p>Thank you, ${name}! Kayla will confirm your order shortly.</p>
+    <div class="confirmation-content">
+      <h2 style="font-family:'Pacifico',cursive;color:#e91e63;">Order Submitted!</h2>
+      <p style="font-size:3rem;margin:0.5rem 0;">🎉</p>
+      <p>Thank you, <strong>${name}</strong>! Kayla will confirm your order shortly.</p>
       <p><strong>Order date:</strong> ${date}</p>
       <p><strong>Delivery:</strong> ${deliveryLabel}</p>
-      <p><strong>Total:</strong> $${order.total.toFixed(2)}</p>
-      <button class="btn btn-primary" onclick="this.closest('.order-confirmation').remove()" style="margin-top:1rem;padding:0.75rem 2rem;background:#e91e63;color:#fff;border:none;border-radius:8px;font-size:1rem;cursor:pointer;">Close</button>
+      <p><strong>Total:</strong> $${total.toFixed(2)}</p>
+      <button class="btn btn-primary" onclick="this.closest('.order-confirmation').remove()">Close</button>
     </div>
   `;
   document.body.appendChild(overlay);
 
-  // Reset
   cart = [];
   updateCartUI();
   document.getElementById("order-form").reset();
