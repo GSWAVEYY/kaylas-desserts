@@ -464,7 +464,6 @@ function submitOrder() {
     return;
   }
 
-  emailjs.init(EMAILJS_PUBLIC_KEY);
   emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
     .then(() => {
       showConfirmation(name, date, deliveryLabel, total);
@@ -535,6 +534,11 @@ function initSectionAnimations() {
 // ---------- Init ----------
 
 document.addEventListener("DOMContentLoaded", () => {
+  // Initialize EmailJS at page load
+  if (typeof emailjs !== "undefined") {
+    emailjs.init("qId7LYirAJei2KgDK");
+  }
+
   renderMenu("all");
   initTabs();
   initOrderForm();
