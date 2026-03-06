@@ -470,6 +470,8 @@ function submitOrder() {
     })
     .catch((err) => {
       console.error("EmailJS error:", err);
+      console.error("EmailJS error status:", err.status);
+      console.error("EmailJS error text:", err.text);
       showToast("Something went wrong. Please DM @kaylas_desserts_05 on Instagram to place your order.");
     })
     .finally(() => {
