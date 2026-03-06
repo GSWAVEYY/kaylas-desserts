@@ -15,10 +15,16 @@
 </head>
 <body>
 
+  <!-- Scroll Progress Bar -->
+  <div class="scroll-progress" id="scroll-progress"></div>
+
   <!-- Navigation -->
   <nav>
     <div class="container nav-container">
       <a href="#" class="logo">Kayla's Desserts</a>
+      <button class="hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
       <ul class="nav-links">
         <li><a href="#menu">Menu</a></li>
         <li><a href="#order">Order</a></li>
@@ -57,6 +63,11 @@
       <div class="menu-grid"></div>
     </div>
   </section>
+
+  <!-- Curved SVG Divider: Menu → Order -->
+  <svg class="section-divider" viewBox="0 0 1440 80" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,60 C360,0 1080,80 1440,20 L1440,80 L0,80 Z" fill="#FFF8F0"/>
+  </svg>
 
   <!-- Order -->
   <section id="order">
@@ -136,6 +147,11 @@
       </div>
     </div>
   </section>
+
+  <!-- Wave SVG Divider above Footer -->
+  <svg class="wave-divider" viewBox="0 0 1440 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,40 C240,100 480,0 720,50 C960,100 1200,10 1440,60 L1440,100 L0,100 Z" fill="#2D2D2D"/>
+  </svg>
 
   <!-- Footer -->
   <footer id="contact">

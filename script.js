@@ -104,7 +104,7 @@ function renderMenu(category) {
   const grid = document.querySelector(".menu-grid");
   const items = category === "all" ? menuItems : menuItems.filter(i => i.category === category);
 
-  grid.innerHTML = items.map(item => {
+  grid.innerHTML = items.map((item, index) => {
     const optionsHtml = item.options.length > 1
       ? `<select class="card-select" id="option-${item.id}">
           ${item.options.map((opt, i) => `<option value="${i}">${opt.label} — $${opt.price.toFixed(2)}</option>`).join("")}
@@ -116,7 +116,7 @@ function renderMenu(category) {
       : "";
 
     return `
-      <div class="menu-card fade-in">
+      <div class="menu-card fade-in" data-category="${item.category}" style="--delay: ${index * 0.1}s">
         <div class="card-image" style="background: ${categoryGradients[item.category]};">
           <span style="font-size:4rem;display:flex;align-items:center;justify-content:center;height:100%">${item.emoji}</span>
         </div>
@@ -173,6 +173,7 @@ function addToCart(itemId) {
 
   updateCartUI();
   showToast(`${item.name} (${option.label}) added!`);
+  pulseBadge();
 }
 
 function removeFromCart(cartKey) {
@@ -190,6 +191,7 @@ function increaseQty(cartKey) {
   if (existing) {
     existing.qty++;
     updateCartUI();
+    pulseBadge();
   }
 }
 
@@ -232,6 +234,20 @@ function updateCartUI() {
       <div class="cart-total-row cart-grand-total"><span>Total</span><span>$${total.toFixed(2)}</span></div>
     </div>
   `;
+
+  // Slide animation on cart update
+  summary.classList.remove("cart-updated");
+  void summary.offsetWidth; // force reflow
+  summary.classList.add("cart-updated");
+}
+
+// ---------- Badge Pulse Animation ----------
+
+function pulseBadge() {
+  const badge = document.querySelector(".cart-badge");
+  badge.classList.remove("pulse");
+  void badge.offsetWidth;
+  badge.classList.add("pulse");
 }
 
 // ---------- Toast Notification ----------
@@ -242,12 +258,83 @@ function showToast(message) {
   toast.textContent = message;
   document.body.appendChild(toast);
 
-  requestAnimationFrame(() => { toast.style.opacity = "1"; });
+  requestAnimationFrame(() => {
+    toast.classList.add("visible");
+  });
 
   setTimeout(() => {
-    toast.style.opacity = "0";
+    toast.classList.remove("visible");
     setTimeout(() => toast.remove(), 300);
   }, 2000);
+}
+
+// ---------- Ripple Effect ----------
+
+function createRipple(e) {
+  const button = e.currentTarget;
+  const existing = button.querySelector(".ripple");
+  if (existing) existing.remove();
+
+  const ripple = document.createElement("span");
+  ripple.className = "ripple";
+
+  const rect = button.getBoundingClientRect();
+  const size = Math.max(rect.width, rect.height);
+  ripple.style.width = ripple.style.height = size + "px";
+  ripple.style.left = (e.clientX - rect.left - size / 2) + "px";
+  ripple.style.top = (e.clientY - rect.top - size / 2) + "px";
+
+  button.appendChild(ripple);
+  setTimeout(() => ripple.remove(), 600);
+}
+
+function initRipples() {
+  // Add ripple to all buttons with card-btn class (uses event delegation for dynamic content)
+  document.addEventListener("click", (e) => {
+    const cardBtn = e.target.closest(".card-btn");
+    if (cardBtn) {
+      createRipple({ currentTarget: cardBtn, clientX: e.clientX, clientY: e.clientY });
+    }
+    const btn = e.target.closest(".btn");
+    if (btn) {
+      createRipple({ currentTarget: btn, clientX: e.clientX, clientY: e.clientY });
+    }
+  });
+}
+
+// ---------- Scroll Progress Bar ----------
+
+function initScrollProgress() {
+  const progressBar = document.getElementById("scroll-progress");
+  if (!progressBar) return;
+
+  window.addEventListener("scroll", () => {
+    const scrollTop = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const scrollPercent = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    progressBar.style.width = scrollPercent + "%";
+  }, { passive: true });
+}
+
+// ---------- Hamburger Menu ----------
+
+function initHamburger() {
+  const hamburger = document.querySelector(".hamburger");
+  const navLinks = document.querySelector(".nav-links");
+  if (!hamburger || !navLinks) return;
+
+  hamburger.addEventListener("click", () => {
+    hamburger.classList.toggle("active");
+    navLinks.classList.toggle("mobile-open");
+  });
+
+  // Close menu when a link is clicked
+  navLinks.querySelectorAll("a").forEach(link => {
+    link.addEventListener("click", () => {
+      hamburger.classList.remove("active");
+      navLinks.classList.remove("mobile-open");
+    });
+  });
 }
 
 // ---------- Order Form Validation + Submission ----------
@@ -344,20 +431,13 @@ function submitOrder() {
 
   const submitBtn = document.querySelector('#order-form button[type="submit"]');
   submitBtn.disabled = true;
+  submitBtn.classList.add("loading");
   submitBtn.textContent = "Sending...";
 
   // EmailJS integration
-  // To set up: Create free account at emailjs.com, then replace these 3 values:
-  //   1. PUBLIC_KEY — from EmailJS dashboard > Account > API Keys
-  //   2. SERVICE_ID — from EmailJS dashboard > Email Services (connect Gmail/Outlook)
-  //   3. TEMPLATE_ID — from EmailJS dashboard > Email Templates (create template with variables below)
-  //
-  // Template variables available: customer_name, customer_phone, items_list, delivery_method,
-  //   delivery_fee, subtotal, total, order_date, special_instructions
-
-  const EMAILJS_PUBLIC_KEY = "YOUR_PUBLIC_KEY";   // TODO: Replace with real key
-  const EMAILJS_SERVICE_ID = "YOUR_SERVICE_ID";   // TODO: Replace with real service ID
-  const EMAILJS_TEMPLATE_ID = "YOUR_TEMPLATE_ID"; // TODO: Replace with real template ID
+  const EMAILJS_PUBLIC_KEY = "YOUR_PUBLIC_KEY";
+  const EMAILJS_SERVICE_ID = "YOUR_SERVICE_ID";
+  const EMAILJS_TEMPLATE_ID = "YOUR_TEMPLATE_ID";
 
   const templateParams = {
     customer_name: name,
@@ -374,9 +454,13 @@ function submitOrder() {
   // If EmailJS is not configured yet, skip the API call and show confirmation
   if (EMAILJS_PUBLIC_KEY === "YOUR_PUBLIC_KEY") {
     console.log("EmailJS not configured yet. Order details:", templateParams);
-    showConfirmation(name, date, deliveryLabel, total);
-    submitBtn.disabled = false;
-    submitBtn.textContent = "Submit Order";
+    // Simulate a brief loading state
+    setTimeout(() => {
+      showConfirmation(name, date, deliveryLabel, total);
+      submitBtn.disabled = false;
+      submitBtn.classList.remove("loading");
+      submitBtn.textContent = "Submit Order";
+    }, 800);
     return;
   }
 
@@ -391,6 +475,7 @@ function submitOrder() {
     })
     .finally(() => {
       submitBtn.disabled = false;
+      submitBtn.classList.remove("loading");
       submitBtn.textContent = "Submit Order";
     });
 }
@@ -422,7 +507,7 @@ function initNavScroll() {
   const nav = document.querySelector("nav");
   window.addEventListener("scroll", () => {
     nav.classList.toggle("scrolled", window.scrollY > 50);
-  });
+  }, { passive: true });
 }
 
 // ---------- Cart Button → Scroll to Order ----------
@@ -456,4 +541,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initNavScroll();
   initCartButton();
   initSectionAnimations();
+  initScrollProgress();
+  initHamburger();
+  initRipples();
 });
