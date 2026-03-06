@@ -435,9 +435,9 @@ function submitOrder() {
   submitBtn.textContent = "Sending...";
 
   // EmailJS integration
-  const EMAILJS_PUBLIC_KEY = "YOUR_PUBLIC_KEY";
-  const EMAILJS_SERVICE_ID = "YOUR_SERVICE_ID";
-  const EMAILJS_TEMPLATE_ID = "YOUR_TEMPLATE_ID";
+  const EMAILJS_PUBLIC_KEY = "qId7LYirAJei2KgDK";
+  const EMAILJS_SERVICE_ID = "service_leifomr";
+  const EMAILJS_TEMPLATE_ID = "template_zki534c";
 
   const templateParams = {
     customer_name: name,
