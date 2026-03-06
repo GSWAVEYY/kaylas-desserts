@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Kayla's Desserts - Homemade treats made with love in the Sacramento area. Cookies, cakes, dessert cups, and more.">
+  <title>Kayla's Desserts</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧁</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Pacifico&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script src="script.js" defer></script>
+</head>
+<body>
+
+  <!-- Hero / Header -->
+  <header id="hero">
+    <nav>
+      <div class="container nav-container">
+        <a href="#" class="logo">Kayla's Desserts</a>
+        <ul class="nav-links">
+          <li><a href="#menu">Menu</a></li>
+          <li><a href="#order">Order</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+        <button class="cart-btn" aria-label="View cart">
+          🛒 <span class="cart-badge">0</span>
+        </button>
+      </div>
+    </nav>
+    <div class="container hero-content">
+      <h1>Kayla's Desserts</h1>
+      <p class="tagline">Homemade treats made with love</p>
+      <div class="hero-ctas">
+        <a href="#menu" class="btn btn-primary">View Menu</a>
+        <a href="#order" class="btn btn-secondary">Place Order</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Menu -->
+  <section id="menu">
+    <div class="container">
+      <h2>Our Menu</h2>
+      <div class="category-tabs">
+        <button class="tab-btn active" data-category="all">All</button>
+        <button class="tab-btn" data-category="cookies">Cookies</button>
+        <button class="tab-btn" data-category="cakes">Cakes</button>
+        <button class="tab-btn" data-category="dessert-cups">Dessert Cups</button>
+        <button class="tab-btn" data-category="treats">Treats</button>
+      </div>
+      <div class="menu-grid"></div>
+    </div>
+  </section>
+
+  <!-- Order -->
+  <section id="order">
+    <div class="container">
+      <h2>Place Your Order</h2>
+      <div id="cart-summary">
+        <p class="empty-cart-message">Your cart is empty. Browse the menu to add items!</p>
+      </div>
+      <form id="order-form">
+        <div class="form-group">
+          <label for="customer-name">Name</label>
+          <input type="text" id="customer-name" name="customer-name" required placeholder="Your name">
+        </div>
+        <div class="form-group">
+          <label for="customer-phone">Phone</label>
+          <input type="tel" id="customer-phone" name="customer-phone" required placeholder="(555) 123-4567">
+        </div>
+        <div class="form-group">
+          <label for="delivery-method">Delivery Method</label>
+          <select id="delivery-method" name="delivery-method" required>
+            <option value="pickup">Pickup - Free</option>
+            <option value="rancho">Rancho Area - $10.00</option>
+            <option value="sacramento">Sacramento Area - $17.50</option>
+            <option value="farther">Farther - $22.50</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="order-date">Preferred Date</label>
+          <input type="date" id="order-date" name="order-date" required>
+        </div>
+        <div class="form-group">
+          <label for="special-instructions">Special Instructions</label>
+          <textarea id="special-instructions" name="special-instructions" rows="4" placeholder="Any allergies, custom requests, or special notes..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit Order</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Payment -->
+  <section id="payment">
+    <div class="container">
+      <h2>Payment Methods</h2>
+      <div class="payment-grid">
+        <div class="payment-card">
+          <span class="payment-icon">💸</span>
+          <h3>Zelle</h3>
+          <p>Send payment directly via Zelle for quick and easy checkout.</p>
+        </div>
+        <div class="payment-card">
+          <span class="payment-icon">💲</span>
+          <h3>Cash App</h3>
+          <p>Pay conveniently through Cash App before or at pickup.</p>
+        </div>
+        <div class="payment-card">
+          <span class="payment-icon">💵</span>
+          <h3>Cash</h3>
+          <p>Cash accepted at pickup. Exact change is appreciated!</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section id="about">
+    <div class="container">
+      <h2>About Kayla's Desserts</h2>
+      <div class="about-grid">
+        <div class="about-image">
+          <div class="image-placeholder">📸</div>
+        </div>
+        <div class="about-text">
+          <p>Welcome to Kayla's Desserts! Every treat is homemade with love right here in the Sacramento area. From rich, gooey cookies to beautifully layered dessert cups and custom cakes, each item is baked fresh to order using quality ingredients you can taste in every bite.</p>
+          <p>What started as a passion for baking has grown into something truly special. Whether you're celebrating a birthday, treating yourself after a long week, or surprising someone you love, Kayla's Desserts is here to make every moment a little sweeter.</p>
+          <p>All orders require 24-hour advance notice so everything is made fresh just for you!</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer id="contact">
+    <div class="container">
+      <a href="https://instagram.com/kaylas_desserts_05" target="_blank" rel="noopener noreferrer" class="social-link">📷 @kaylas_desserts_05</a>
+      <p class="footer-notice">All orders require 24-hour advance notice</p>
+      <p class="copyright">&copy; 2026 Kayla's Desserts</p>
+    </div>
+  </footer>
+
+</body>
+</html>
