@@ -2,25 +2,82 @@
 // Kayla's Desserts — Main JavaScript
 // ============================================
 
-// ---------- Menu Data ----------
+// ---------- Menu Data (from Kayla's actual menu) ----------
 
 const menuItems = [
-  { id: 1, name: "Red Velvet White Chocolate Chip Cookie", category: "cookies", price: 3.50, description: "Rich red velvet dough loaded with white chocolate chips", emoji: "🍪" },
-  { id: 2, name: "Chocolate Chip Cookies", category: "cookies", price: 3.00, description: "Classic homemade chocolate chip cookies, warm and gooey", emoji: "🍪" },
-  { id: 3, name: "Mini Cakes", category: "cakes", price: 15.00, description: "Perfectly sized mini cakes for any celebration", emoji: "🎂" },
-  { id: 4, name: "Churro Cheesecake", category: "cakes", price: 25.00, description: "Creamy cheesecake with a cinnamon churro twist", emoji: "🍰" },
-  { id: 5, name: "Fresas con Crema", category: "dessert-cups", price: 8.00, description: "Fresh strawberries with sweet cream — a classic favorite", emoji: "🍓" },
-  { id: 6, name: "Choco Flan", category: "dessert-cups", price: 7.00, description: "Rich chocolate cake layered with creamy caramel flan", emoji: "🍮" },
-  { id: 7, name: "Cake Pops", category: "treats", price: 3.00, description: "Bite-sized cake balls dipped in colorful chocolate coating", emoji: "🍭" },
-  { id: 8, name: "Chocolate Covered Strawberries", category: "treats", price: 12.00, description: "Fresh strawberries hand-dipped in premium chocolate", emoji: "🍫" },
-  { id: 9, name: "Brownies", category: "treats", price: 4.00, description: "Dense, fudgy brownies with a crackly top", emoji: "🟫" },
+  {
+    id: 1, name: "Churro Cheesecake", category: "cakes", emoji: "🍰",
+    description: "Creamy cheesecake with a cinnamon churro twist",
+    options: [
+      { label: "Mini Bites (2 bars)", price: 6 },
+      { label: "Mini (1)", price: 8 },
+      { label: "Mini (3)", price: 16 },
+      { label: "Full Pan", price: 25 },
+    ]
+  },
+  {
+    id: 2, name: "Mini Cakes", category: "cakes", emoji: "🎂",
+    description: "Strawberry, Red Velvet, Chocolate, Strawberry Crunch, S'mores, Ferrero Rocher, Tres Leches & more",
+    options: [
+      { label: "Mini Cake", price: 8 },
+    ]
+  },
+  {
+    id: 3, name: "Mini Flans", category: "desserts", emoji: "🍮",
+    description: "Chocolate, Classic, Strawberry & more flavors",
+    options: [
+      { label: "2 Pack", price: 5 },
+      { label: "4 Pack", price: 10 },
+    ]
+  },
+  {
+    id: 4, name: "Fresa Con Crema", category: "desserts", emoji: "🍓",
+    description: "Fresh strawberries with sweet cream — also available with apple or other fruits",
+    options: [
+      { label: "Single", price: 5 },
+      { label: "2 Pack", price: 10 },
+    ]
+  },
+  {
+    id: 5, name: "Brownies", category: "desserts", emoji: "🟫",
+    description: "Double Chocolate, S'mores, Strawberry & more",
+    options: [
+      { label: "Single", price: 5 },
+      { label: "2 Pack", price: 10 },
+    ]
+  },
+  {
+    id: 6, name: "Chocolate Covered Fruit", category: "treats", emoji: "🍫",
+    description: "Strawberries, Bananas, Pineapple, Rice Krispies",
+    options: [
+      { label: "5 Pieces", price: 8 },
+      { label: "10 Pieces", price: 15 },
+      { label: "Dozen", price: 18 },
+      { label: "Larger Platter", price: 25 },
+    ]
+  },
+  {
+    id: 7, name: "Cake Pops", category: "treats", emoji: "🍭",
+    description: "Chocolate, Red Velvet, Yellow, Birthday Cake & more",
+    options: [
+      { label: "Single", price: 3 },
+      { label: "2 Pack", price: 5 },
+    ]
+  },
+  {
+    id: 8, name: "Cookies", category: "treats", emoji: "🍪",
+    description: "Chocolate Chip, Red Velvet, Cookie Monster, White Chocolate & more",
+    options: [
+      { label: "3 Pack", price: 5 },
+      { label: "6 Pack", price: 10 },
+    ]
+  },
 ];
 
 const categoryGradients = {
-  cookies: "linear-gradient(135deg, #fce4ec, #f8bbd0)",
-  cakes: "linear-gradient(135deg, #e8eaf6, #d1c4e9)",
-  "dessert-cups": "linear-gradient(135deg, #e0f2f1, #b2dfdb)",
-  treats: "linear-gradient(135deg, #fce4ec, #e8eaf6)",
+  cakes: "linear-gradient(135deg, #f0e6fa, #d1c4e9)",
+  desserts: "linear-gradient(135deg, #d4f5e9, #b2dfdb)",
+  treats: "linear-gradient(135deg, #ffd6dd, #f8bbd0)",
 };
 
 const deliveryFees = { pickup: 0, rancho: 10, sacramento: 17.50, farther: 22.50 };
@@ -47,19 +104,32 @@ function renderMenu(category) {
   const grid = document.querySelector(".menu-grid");
   const items = category === "all" ? menuItems : menuItems.filter(i => i.category === category);
 
-  grid.innerHTML = items.map(item => `
-    <div class="menu-card fade-in">
-      <div class="card-image" style="background: ${categoryGradients[item.category]};">
-        <span style="font-size:4rem;display:flex;align-items:center;justify-content:center;height:100%">${item.emoji}</span>
+  grid.innerHTML = items.map(item => {
+    const optionsHtml = item.options.length > 1
+      ? `<select class="card-select" id="option-${item.id}">
+          ${item.options.map((opt, i) => `<option value="${i}">${opt.label} — $${opt.price.toFixed(2)}</option>`).join("")}
+        </select>`
+      : `<p class="card-price">$${item.options[0].price.toFixed(2)}</p>`;
+
+    const priceDisplay = item.options.length > 1
+      ? `<p class="card-price">From $${item.options[0].price.toFixed(2)}</p>`
+      : "";
+
+    return `
+      <div class="menu-card fade-in">
+        <div class="card-image" style="background: ${categoryGradients[item.category]};">
+          <span style="font-size:4rem;display:flex;align-items:center;justify-content:center;height:100%">${item.emoji}</span>
+        </div>
+        <div class="card-body">
+          <h3 class="card-name">${item.name}</h3>
+          <p class="card-description">${item.description}</p>
+          ${priceDisplay}
+          ${optionsHtml}
+          <button class="card-btn" onclick="addToCart(${item.id})">Add to Cart 🛒</button>
+        </div>
       </div>
-      <div class="card-body">
-        <h3 class="card-name">${item.name}</h3>
-        <p class="card-description">${item.description}</p>
-        <p class="card-price">$${item.price.toFixed(2)}</p>
-        <button class="card-btn" onclick="addToCart(${item.id})">Add to Cart 🛒</button>
-      </div>
-    </div>
-  `).join("");
+    `;
+  }).join("");
 
   observeFadeIns();
 }
@@ -80,20 +150,33 @@ function initTabs() {
 
 function addToCart(itemId) {
   const item = menuItems.find(i => i.id === itemId);
-  const existing = cart.find(c => c.id === itemId);
+  const selectEl = document.getElementById(`option-${itemId}`);
+  const optionIdx = selectEl ? parseInt(selectEl.value) : 0;
+  const option = item.options[optionIdx];
+
+  // Unique key: item id + option label
+  const cartKey = `${itemId}-${optionIdx}`;
+  const existing = cart.find(c => c.cartKey === cartKey);
 
   if (existing) {
     existing.qty++;
   } else {
-    cart.push({ ...item, qty: 1 });
+    cart.push({
+      cartKey,
+      id: itemId,
+      name: item.name,
+      optionLabel: option.label,
+      price: option.price,
+      qty: 1,
+    });
   }
 
   updateCartUI();
-  showToast(`${item.name} added to cart!`);
+  showToast(`${item.name} (${option.label}) added!`);
 }
 
-function removeFromCart(itemId) {
-  const idx = cart.findIndex(c => c.id === itemId);
+function removeFromCart(cartKey) {
+  const idx = cart.findIndex(c => c.cartKey === cartKey);
   if (idx === -1) return;
 
   cart[idx].qty--;
@@ -102,8 +185,8 @@ function removeFromCart(itemId) {
   updateCartUI();
 }
 
-function increaseQty(itemId) {
-  const existing = cart.find(c => c.id === itemId);
+function increaseQty(cartKey) {
+  const existing = cart.find(c => c.cartKey === cartKey);
   if (existing) {
     existing.qty++;
     updateCartUI();
@@ -133,11 +216,11 @@ function updateCartUI() {
     <div class="cart-items">
       ${cart.map(c => `
         <div class="cart-item">
-          <span class="cart-item-name">${c.name}</span>
+          <span class="cart-item-name">${c.name} <small>(${c.optionLabel})</small></span>
           <div class="cart-item-controls">
-            <button onclick="removeFromCart(${c.id})">−</button>
+            <button onclick="removeFromCart('${c.cartKey}')">−</button>
             <span>${c.qty}</span>
-            <button onclick="increaseQty(${c.id})">+</button>
+            <button onclick="increaseQty('${c.cartKey}')">+</button>
           </div>
           <span class="cart-item-total">$${(c.price * c.qty).toFixed(2)}</span>
         </div>

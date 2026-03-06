@@ -355,6 +355,27 @@ nav.scrolled {
   font-size: 1.1rem;
 }
 
+.card-select {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 2px solid var(--pink-light);
+  font-family: 'Nunito', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  background: white;
+  color: var(--dark);
+  margin-top: 8px;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.card-select:focus {
+  border-color: var(--pink);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(255, 182, 193, 0.3);
+}
+
 .card-btn {
   background: var(--mint);
   color: white;
