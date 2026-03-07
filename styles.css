@@ -79,7 +79,7 @@ button {
   left: 0;
   width: 0%;
   height: 3px;
-  background: linear-gradient(90deg, var(--pink), var(--lavender), var(--mint), var(--pink));
+  background: linear-gradient(90deg, var(--pink), #f8a4b8, var(--pink));
   background-size: 300% 100%;
   animation: progressGradient 3s ease infinite;
   z-index: 1000;
@@ -115,7 +115,7 @@ nav {
   left: 0;
   width: 100%;
   z-index: 100;
-  background: rgba(255, 248, 240, 0.75);
+  background: rgba(250, 250, 250, 0.75);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   transition: var(--transition);
@@ -123,9 +123,9 @@ nav {
 }
 
 nav.scrolled {
-  background: rgba(255, 248, 240, 0.97);
-  box-shadow: 0 2px 30px rgba(0, 0, 0, 0.08);
-  border-bottom: 1px solid rgba(255, 182, 193, 0.2);
+  background: rgba(250, 250, 250, 0.97);
+  box-shadow: 0 2px 30px rgba(0, 0, 0, 0.06);
+  border-bottom: 1px solid rgba(232, 88, 122, 0.15);
 }
 
 nav.scrolled::after {
@@ -135,7 +135,7 @@ nav.scrolled::after {
   left: 0;
   width: 100%;
   height: 2px;
-  background: linear-gradient(90deg, transparent, var(--pink), var(--lavender), var(--mint), transparent);
+  background: linear-gradient(90deg, transparent, var(--pink), transparent);
   opacity: 0.5;
 }
 
@@ -181,7 +181,7 @@ nav.scrolled::after {
   left: 0;
   width: 0;
   height: 2px;
-  background: linear-gradient(90deg, var(--pink), var(--lavender));
+  background: var(--pink);
   transition: var(--transition);
   border-radius: 2px;
 }
@@ -239,7 +239,7 @@ nav.scrolled::after {
   left: 0;
   width: 100%;
   height: 100vh;
-  background: rgba(255, 248, 240, 0.97);
+  background: rgba(250, 250, 250, 0.97);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   align-items: center;
@@ -314,7 +314,7 @@ nav.scrolled::after {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(-45deg, #FFD6DD, #F0E6FA, #D4F5E9, #FFB6C1, #E6D5F5);
+  background: linear-gradient(-45deg, #FFF0F3, #FDE8EC, #FFF0F3, #FCE4EC);
   background-size: 400% 400%;
   animation: gradientShift 15s ease infinite;
   text-align: center;
@@ -337,7 +337,7 @@ nav.scrolled::after {
 #hero::before {
   width: 400px;
   height: 400px;
-  background: rgba(255, 182, 193, 0.5);
+  background: rgba(232, 88, 122, 0.25);
   top: -100px;
   right: -100px;
 }
@@ -345,7 +345,7 @@ nav.scrolled::after {
 #hero::after {
   width: 350px;
   height: 350px;
-  background: rgba(181, 234, 215, 0.5);
+  background: rgba(232, 88, 122, 0.15);
   bottom: -80px;
   left: -80px;
   animation-delay: -10s;
@@ -367,7 +367,7 @@ nav.scrolled::after {
 
 .hero-content h1 {
   font-size: 3rem;
-  background: linear-gradient(135deg, #fff, #FFD6DD, #fff, #F0E6FA, #fff);
+  background: linear-gradient(135deg, var(--dark), var(--pink), var(--dark));
   background-size: 200% 200%;
   -webkit-background-clip: text;
   background-clip: text;
@@ -386,12 +386,12 @@ nav.scrolled::after {
 }
 
 .tagline {
-  color: rgba(255, 255, 255, 0.95);
+  color: var(--gray);
   font-size: 1.05rem;
   margin: 0 0 36px;
   font-weight: 400;
   letter-spacing: 0.08em;
-  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.08);
+  text-shadow: none;
   text-transform: uppercase;
 }
 
@@ -443,7 +443,7 @@ nav.scrolled::after {
 
 .btn-primary:hover {
   transform: translateY(-2px) scale(1.03);
-  box-shadow: 0 10px 30px rgba(255, 182, 193, 0.35);
+  box-shadow: 0 10px 30px rgba(232, 88, 122, 0.25);
 }
 
 .btn-secondary {
@@ -488,7 +488,7 @@ section h2::after {
   transform: translateX(-50%);
   width: 60px;
   height: 3px;
-  background: linear-gradient(90deg, var(--pink), var(--lavender), var(--mint));
+  background: var(--pink);
   border-radius: 3px;
 }
 
@@ -517,7 +517,7 @@ section h2::after {
   content: '';
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(circle, rgba(255, 182, 193, 0.08) 1px, transparent 1px);
+  background-image: radial-gradient(circle, rgba(232, 88, 122, 0.05) 1px, transparent 1px);
   background-size: 24px 24px;
   pointer-events: none;
 }
@@ -558,7 +558,7 @@ section h2::after {
 .tab-btn.active {
   background: var(--pink);
   color: white;
-  box-shadow: 0 4px 15px rgba(255, 182, 193, 0.4);
+  box-shadow: 0 4px 15px rgba(232, 88, 122, 0.3);
 }
 
 .tab-btn:hover {
@@ -599,22 +599,22 @@ section h2::after {
 
 /* Category-specific glow on hover */
 .menu-card[data-category="cakes"]:hover {
-  box-shadow: 0 16px 40px rgba(209, 196, 233, 0.4);
+  box-shadow: 0 16px 40px rgba(232, 88, 122, 0.12);
 }
 
 .menu-card[data-category="desserts"]:hover {
-  box-shadow: 0 16px 40px rgba(178, 223, 219, 0.4);
+  box-shadow: 0 16px 40px rgba(107, 114, 128, 0.12);
 }
 
 .menu-card[data-category="treats"]:hover {
-  box-shadow: 0 16px 40px rgba(248, 187, 208, 0.4);
+  box-shadow: 0 16px 40px rgba(232, 88, 122, 0.15);
 }
 
 .card-image {
   height: 200px;
   background-size: cover;
   background-position: center;
-  background-color: var(--lavender-light);
+  background-color: var(--gray-light);
   overflow: hidden;
   position: relative;
 }
@@ -671,11 +671,11 @@ section h2::after {
 .card-select:focus {
   border-color: var(--pink);
   outline: none;
-  box-shadow: 0 0 0 3px rgba(255, 182, 193, 0.3);
+  box-shadow: 0 0 0 3px rgba(232, 88, 122, 0.2);
 }
 
 .card-btn {
-  background: linear-gradient(135deg, var(--mint), #8fd9be);
+  background: linear-gradient(135deg, var(--pink), #f06292);
   color: white;
   border: none;
   padding: 10px 20px;
@@ -694,7 +694,7 @@ section h2::after {
 .card-btn:hover {
   background-position: 100% 50%;
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(181, 234, 215, 0.4);
+  box-shadow: 0 6px 20px rgba(232, 88, 122, 0.3);
 }
 
 .card-btn:active {
@@ -753,15 +753,15 @@ section h2::after {
   top: 12px;
   left: 16px;
   font-size: 4rem;
-  font-family: 'Pacifico', cursive;
+  font-family: 'Inter', sans-serif;
   color: var(--pink-light);
-  opacity: 0.4;
+  opacity: 0.3;
   line-height: 1;
 }
 
 .testimonial-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 12px 30px rgba(255, 182, 193, 0.2);
+  box-shadow: 0 12px 30px rgba(232, 88, 122, 0.15);
 }
 
 .stars {
@@ -819,7 +819,7 @@ section h2::after {
    Order Section
    =========================== */
 #order {
-  background: linear-gradient(180deg, var(--cream), var(--lavender-light));
+  background: linear-gradient(180deg, var(--cream), var(--gray-light));
   position: relative;
 }
 
@@ -946,7 +946,7 @@ section h2::after {
 .form-group textarea:focus {
   border-color: var(--pink);
   outline: none;
-  box-shadow: 0 0 0 4px rgba(255, 182, 193, 0.2);
+  box-shadow: 0 0 0 4px rgba(232, 88, 122, 0.15);
   background: white;
 }
 
@@ -1008,7 +1008,7 @@ section h2::after {
   opacity: 0;
   transform: translateY(10px);
   transition: opacity 0.3s ease, transform 0.3s ease;
-  box-shadow: 0 6px 20px rgba(255, 182, 193, 0.5);
+  box-shadow: 0 6px 20px rgba(232, 88, 122, 0.35);
 }
 
 .toast-notification.visible {
@@ -1029,7 +1029,7 @@ section h2::after {
 
 #order-form .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(255, 182, 193, 0.5);
+  box-shadow: 0 8px 25px rgba(232, 88, 122, 0.35);
 }
 
 /* Submit button loading spinner */
@@ -1069,8 +1069,8 @@ section h2::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at 30% 20%, rgba(240, 230, 250, 0.3) 0%, transparent 50%),
-              radial-gradient(ellipse at 70% 80%, rgba(212, 245, 233, 0.3) 0%, transparent 50%);
+  background: radial-gradient(ellipse at 30% 20%, rgba(232, 88, 122, 0.06) 0%, transparent 50%),
+              radial-gradient(ellipse at 70% 80%, rgba(243, 244, 246, 0.5) 0%, transparent 50%);
   pointer-events: none;
 }
 
@@ -1107,27 +1107,27 @@ section h2::after {
 }
 
 .payment-card:nth-child(1) {
-  background: rgba(255, 214, 221, 0.5);
+  background: rgba(232, 88, 122, 0.08);
 }
 
 .payment-card:nth-child(1):hover {
-  box-shadow: 0 16px 40px rgba(255, 182, 193, 0.3);
+  box-shadow: 0 16px 40px rgba(232, 88, 122, 0.15);
 }
 
 .payment-card:nth-child(2) {
-  background: rgba(240, 230, 250, 0.5);
+  background: rgba(107, 114, 128, 0.06);
 }
 
 .payment-card:nth-child(2):hover {
-  box-shadow: 0 16px 40px rgba(230, 213, 245, 0.3);
+  box-shadow: 0 16px 40px rgba(107, 114, 128, 0.12);
 }
 
 .payment-card:nth-child(3) {
-  background: rgba(212, 245, 233, 0.5);
+  background: rgba(243, 244, 246, 0.8);
 }
 
 .payment-card:nth-child(3):hover {
-  box-shadow: 0 16px 40px rgba(181, 234, 215, 0.3);
+  box-shadow: 0 16px 40px rgba(107, 114, 128, 0.12);
 }
 
 .payment-icon {
@@ -1142,7 +1142,7 @@ section h2::after {
 }
 
 .payment-card h3 {
-  font-family: 'Pacifico', cursive;
+  font-family: 'Inter', sans-serif;
   font-size: 1.3rem;
   margin: 0 0 8px;
 }
@@ -1256,7 +1256,7 @@ section h2::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(155deg, var(--cream) 50%, rgba(240, 230, 250, 0.2) 50%);
+  background: linear-gradient(155deg, var(--cream) 50%, var(--gray-light) 50%);
   pointer-events: none;
 }
 
@@ -1280,7 +1280,7 @@ section h2::after {
 .image-placeholder {
   height: 300px;
   border-radius: var(--radius);
-  background: linear-gradient(135deg, var(--pink-light), var(--lavender-light));
+  background: linear-gradient(135deg, var(--pink-light), var(--gray-light));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1342,7 +1342,7 @@ footer h2 {
 
 .social-link:hover {
   transform: translateY(-3px) scale(1.05);
-  box-shadow: 0 6px 20px rgba(255, 182, 193, 0.5);
+  box-shadow: 0 6px 20px rgba(232, 88, 122, 0.35);
 }
 
 .social-link::before {
@@ -1350,7 +1350,7 @@ footer h2 {
   position: absolute;
   inset: -3px;
   border-radius: 50px;
-  background: linear-gradient(135deg, var(--pink), var(--lavender), var(--mint));
+  background: linear-gradient(135deg, var(--pink), #f06292);
   z-index: -1;
   opacity: 0;
   transition: opacity 0.3s ease;

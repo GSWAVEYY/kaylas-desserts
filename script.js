@@ -75,9 +75,9 @@ const menuItems = [
 ];
 
 const categoryGradients = {
-  cakes: "linear-gradient(135deg, #f0e6fa, #d1c4e9)",
-  desserts: "linear-gradient(135deg, #d4f5e9, #b2dfdb)",
-  treats: "linear-gradient(135deg, #ffd6dd, #f8bbd0)",
+  cakes: "linear-gradient(135deg, #FFF0F3, #FCE4EC)",
+  desserts: "linear-gradient(135deg, #F3F4F6, #E5E7EB)",
+  treats: "linear-gradient(135deg, #FFF0F3, #FECDD3)",
 };
 
 const deliveryFees = { pickup: 0, rancho: 10, sacramento: 17.50, farther: 22.50 };
@@ -486,7 +486,7 @@ function showConfirmation(name, date, deliveryLabel, total) {
   overlay.className = "order-confirmation";
   overlay.innerHTML = `
     <div class="confirmation-content">
-      <h2 style="font-family:'Pacifico',cursive;color:#e91e63;">Order Submitted!</h2>
+      <h2 style="font-family:'Inter',sans-serif;font-weight:800;color:#E8587A;">Order Submitted!</h2>
       <p style="font-size:3rem;margin:0.5rem 0;">🎉</p>
       <p>Thank you, <strong>${name}</strong>! Kayla will confirm your order shortly.</p>
       <p><strong>Order date:</strong> ${date}</p>
