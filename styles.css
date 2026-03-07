@@ -493,12 +493,12 @@ section h2::after {
 }
 
 /* Center the h2 wrapper */
-#menu h2, #order h2, #payment h2, #about h2 {
+#menu h2, #order h2, #payment h2, #about h2, #faq h2 {
   display: block;
   text-align: center;
 }
 
-#menu h2::after, #order h2::after, #payment h2::after, #about h2::after {
+#menu h2::after, #order h2::after, #payment h2::after, #about h2::after, #faq h2::after {
   left: 50%;
   transform: translateX(-50%);
 }
