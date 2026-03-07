@@ -525,12 +525,35 @@ function initCartButton() {
 // ---------- Add fade-in to section headings ----------
 
 function initSectionAnimations() {
-  document.querySelectorAll("section h2, .hero-content, .about-content").forEach(el => {
+  document.querySelectorAll("section h2, .hero-content, .about-content, .testimonial-card, .faq-item").forEach(el => {
     if (!el.classList.contains("fade-in")) {
       el.classList.add("fade-in");
     }
   });
   observeFadeIns();
+}
+
+// ---------- FAQ Accordion ----------
+
+function initFAQ() {
+  document.querySelectorAll(".faq-question").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const item = btn.closest(".faq-item");
+      const isOpen = item.classList.contains("open");
+
+      // Close all
+      document.querySelectorAll(".faq-item.open").forEach(openItem => {
+        openItem.classList.remove("open");
+        openItem.querySelector(".faq-question").setAttribute("aria-expanded", "false");
+      });
+
+      // Toggle clicked (if it wasn't already open)
+      if (!isOpen) {
+        item.classList.add("open");
+        btn.setAttribute("aria-expanded", "true");
+      }
+    });
+  });
 }
 
 // ---------- Init ----------
@@ -550,4 +573,5 @@ document.addEventListener("DOMContentLoaded", () => {
   initScrollProgress();
   initHamburger();
   initRipples();
+  initFAQ();
 });

@@ -17,6 +17,19 @@
   --transition-slow: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
+/* Noise texture overlay for warmth */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9998;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
+}
+
 /* ===========================
    Reset & Base
    =========================== */
@@ -141,6 +154,9 @@ nav.scrolled::after {
   color: var(--pink);
   font-size: 1.5rem;
   position: relative;
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
 .nav-links {
@@ -372,11 +388,12 @@ nav.scrolled::after {
 
 .tagline {
   color: rgba(255, 255, 255, 0.95);
-  font-size: 1.2rem;
+  font-size: 1.05rem;
   margin: 0 0 36px;
   font-weight: 400;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.08em;
   text-shadow: 0 1px 8px rgba(0, 0, 0, 0.08);
+  text-transform: uppercase;
 }
 
 .hero-ctas {
@@ -571,14 +588,14 @@ section h2::after {
   border: 1px solid rgba(255, 255, 255, 0.4);
   border-radius: var(--radius);
   overflow: hidden;
-  box-shadow: var(--shadow);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06), 0 8px 24px rgba(0, 0, 0, 0.04);
   transition: var(--transition-slow);
   transition-delay: var(--delay, 0s);
 }
 
 .menu-card:hover {
   transform: translateY(-8px);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08), 0 20px 48px rgba(0, 0, 0, 0.1);
 }
 
 /* Category-specific glow on hover */
@@ -631,9 +648,10 @@ section h2::after {
 }
 
 .card-price {
-  font-weight: 700;
+  font-weight: 800;
   color: var(--pink);
-  font-size: 1.1rem;
+  font-size: 1.15rem;
+  letter-spacing: -0.01em;
 }
 
 .card-select {
@@ -658,7 +676,7 @@ section h2::after {
 }
 
 .card-btn {
-  background: var(--mint);
+  background: linear-gradient(135deg, var(--mint), #8fd9be);
   color: white;
   border: none;
   padding: 10px 20px;
@@ -670,12 +688,14 @@ section h2::after {
   transition: var(--transition);
   position: relative;
   overflow: hidden;
+  background-size: 200% 200%;
+  background-position: 0% 50%;
 }
 
 .card-btn:hover {
-  background: #8fd9be;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 15px rgba(181, 234, 215, 0.4);
+  background-position: 100% 50%;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(181, 234, 215, 0.4);
 }
 
 .card-btn:active {
@@ -690,6 +710,93 @@ section h2::after {
   transform: scale(0);
   animation: rippleEffect 0.6s ease-out;
   pointer-events: none;
+}
+
+/* ===========================
+   Testimonials Section
+   =========================== */
+#testimonials {
+  background: linear-gradient(180deg, white, var(--cream));
+  position: relative;
+  overflow: hidden;
+}
+
+#testimonials h2 {
+  color: var(--pink);
+  font-size: 2.2rem;
+  margin: 0 0 40px;
+  position: relative;
+}
+
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.testimonial-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: var(--radius);
+  padding: 28px;
+  box-shadow: var(--shadow);
+  transition: var(--transition-slow);
+  position: relative;
+}
+
+.testimonial-card::before {
+  content: '\201C';
+  position: absolute;
+  top: 12px;
+  left: 16px;
+  font-size: 4rem;
+  font-family: 'Pacifico', cursive;
+  color: var(--pink-light);
+  opacity: 0.4;
+  line-height: 1;
+}
+
+.testimonial-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(255, 182, 193, 0.2);
+}
+
+.stars {
+  font-size: 0.9rem;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+}
+
+.testimonial-quote {
+  font-style: italic;
+  line-height: 1.7;
+  color: var(--dark);
+  margin: 0 0 16px;
+  font-size: 0.95rem;
+  position: relative;
+  z-index: 1;
+}
+
+.testimonial-author {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.author-name {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--dark);
+}
+
+.author-order {
+  font-size: 0.8rem;
+  color: var(--pink);
+  font-weight: 600;
 }
 
 /* ===========================
@@ -1049,6 +1156,95 @@ section h2::after {
 }
 
 /* ===========================
+   FAQ Section
+   =========================== */
+#faq {
+  background: var(--cream);
+  position: relative;
+}
+
+#faq h2 {
+  color: var(--pink);
+  font-size: 2.2rem;
+  margin: 0 0 40px;
+  position: relative;
+}
+
+.faq-list {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.faq-item {
+  margin-bottom: 12px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  transition: var(--transition);
+}
+
+.faq-item:hover {
+  box-shadow: var(--shadow);
+}
+
+.faq-question {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 20px;
+  background: none;
+  border: none;
+  font-family: 'Nunito', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--dark);
+  cursor: pointer;
+  text-align: left;
+  gap: 12px;
+  transition: var(--transition);
+}
+
+.faq-question:hover {
+  color: var(--pink);
+}
+
+.faq-icon {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--pink);
+  transition: transform 0.3s ease;
+  flex-shrink: 0;
+}
+
+.faq-item.open .faq-icon {
+  transform: rotate(45deg);
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease, padding 0.35s ease;
+  padding: 0 20px;
+}
+
+.faq-item.open .faq-answer {
+  max-height: 300px;
+  padding: 0 20px 18px;
+}
+
+.faq-answer p {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.7;
+  opacity: 0.75;
+}
+
+/* ===========================
    About Section
    =========================== */
 #about {
@@ -1183,13 +1379,35 @@ footer h2 {
   margin: 0;
 }
 
+/* Developer Credit */
+.dev-credit {
+  margin: 16px 0 0;
+  font-size: 0.7rem;
+  opacity: 0.35;
+  transition: opacity 0.3s ease;
+}
+
+.dev-credit:hover {
+  opacity: 0.7;
+}
+
+.dev-credit a {
+  color: var(--pink-light);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.dev-credit a:hover {
+  color: var(--pink);
+}
+
 /* ===========================
    Scroll Animations
    =========================== */
 .fade-in {
   opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  transform: translateY(24px);
+  transition: opacity 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   transition-delay: var(--delay, 0s);
 }
 
@@ -1284,6 +1502,10 @@ footer h2 {
 
   .about-grid {
     grid-template-columns: 1fr 1fr;
+  }
+
+  .testimonials-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
