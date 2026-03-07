@@ -568,6 +568,7 @@ section h2::after {
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: var(--radius);
+  transform-style: preserve-3d;
   overflow: hidden;
   transition: var(--transition-slow);
   transition-delay: var(--delay, 0s);

@@ -613,6 +613,75 @@ function initTextSplit() {
   document.querySelectorAll('.split-heading').forEach(el => observer.observe(el));
 }
 
+// ---------- 3D Card Tilt ----------
+
+function initCardTilt() {
+  if (window.matchMedia('(hover: none)').matches) return;
+
+  document.addEventListener('mousemove', (e) => {
+    document.querySelectorAll('.menu-card').forEach(card => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+
+      if (x < 0 || x > rect.width || y < 0 || y > rect.height) {
+        card.style.transform = '';
+        return;
+      }
+
+      const rotateX = ((y / rect.height) - 0.5) * -8;
+      const rotateY = ((x / rect.width) - 0.5) * 8;
+      card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px)`;
+    });
+  });
+}
+
+// ---------- Magnetic Buttons ----------
+
+function initMagneticButtons() {
+  if (window.matchMedia('(hover: none)').matches) return;
+
+  const magneticEls = document.querySelectorAll('.btn, .social-link');
+  const strength = 0.3;
+
+  magneticEls.forEach(el => {
+    el.addEventListener('mousemove', (e) => {
+      const rect = el.getBoundingClientRect();
+      const x = e.clientX - rect.left - rect.width / 2;
+      const y = e.clientY - rect.top - rect.height / 2;
+      el.style.transform = `translate(${x * strength}px, ${y * strength}px)`;
+    });
+
+    el.addEventListener('mouseleave', () => {
+      el.style.transform = '';
+      el.style.transition = 'transform 0.4s ease';
+      setTimeout(() => el.style.transition = '', 400);
+    });
+  });
+}
+
+// ---------- Parallax Depth ----------
+
+function initParallax() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  window.addEventListener('scroll', () => {
+    const scrollY = window.scrollY;
+
+    const monogram = document.querySelector('.about-monogram');
+    if (monogram) {
+      const rect = monogram.getBoundingClientRect();
+      const offset = (rect.top + rect.height / 2 - window.innerHeight / 2) * 0.1;
+      monogram.style.transform = `translateY(${offset}px)`;
+    }
+
+    const particles = document.querySelector('.hero-particles');
+    if (particles) {
+      particles.style.transform = `translateY(${scrollY * 0.15}px)`;
+    }
+  }, { passive: true });
+}
+
 // ---------- Init ----------
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -634,4 +703,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initRipples();
   initFAQ();
   initCustomCursor();
+  initCardTilt();
+  initMagneticButtons();
+  initParallax();
 });
