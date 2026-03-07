@@ -2,14 +2,18 @@
    Custom Properties
    =========================== */
 :root {
-  --pink: #E8587A;
-  --pink-light: #FFF0F3;
-  --cream: #FAFAFA;
-  --dark: #1A1A1A;
-  --gray: #6B7280;
-  --gray-light: #F3F4F6;
-  --shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.1);
+  --bg: #0A0A0A;
+  --surface: #111111;
+  --surface-light: #1A1A1A;
+  --crimson: #C41E3A;
+  --gold: #D4A853;
+  --cream: #F5F0E8;
+  --muted: #8A8A8A;
+  --blue-hint: #1A2332;
+  --glow-crimson: rgba(196, 30, 58, 0.15);
+  --glow-gold: rgba(212, 168, 83, 0.12);
+  --shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.5);
   --radius: 12px;
   --transition: all 0.3s ease;
   --transition-slow: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
@@ -22,7 +26,7 @@ body::after {
   inset: 0;
   pointer-events: none;
   z-index: 9998;
-  opacity: 0.025;
+  opacity: 0.035;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   background-repeat: repeat;
   background-size: 256px 256px;
@@ -42,17 +46,17 @@ html {
 }
 
 body {
-  font-family: 'Nunito', sans-serif;
-  background-color: var(--cream);
-  color: var(--dark);
+  font-family: 'Inter', sans-serif;
+  background-color: var(--bg);
+  color: var(--cream);
   margin: 0;
   line-height: 1.6;
   overflow-x: hidden;
 }
 
 h1, h2, h3 {
-  font-family: 'Inter', sans-serif;
-  font-weight: 800;
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
 }
 
 img {
