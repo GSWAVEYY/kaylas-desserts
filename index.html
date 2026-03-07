@@ -282,5 +282,30 @@
     </div>
   </footer>
 
+  <!-- Channel Selection Modal -->
+  <div class="channel-modal" id="channel-modal" aria-hidden="true">
+    <div class="channel-modal-content">
+      <button class="channel-modal-close" aria-label="Close">&times;</button>
+      <h2>Send Your Order</h2>
+      <div class="channel-order-summary" id="channel-order-summary"></div>
+      <p class="channel-prompt">How would you like to send your order?</p>
+      <div class="channel-options">
+        <button class="channel-btn" data-channel="email">
+          <span class="channel-icon">📧</span>
+          <span class="channel-label">Email</span>
+        </button>
+        <button class="channel-btn" data-channel="whatsapp">
+          <span class="channel-icon">💬</span>
+          <span class="channel-label">WhatsApp</span>
+        </button>
+        <button class="channel-btn" data-channel="instagram">
+          <span class="channel-icon">📷</span>
+          <span class="channel-label">Instagram</span>
+        </button>
+      </div>
+      <div class="channel-status" id="channel-status"></div>
+    </div>
+  </div>
+
 </body>
 </html>

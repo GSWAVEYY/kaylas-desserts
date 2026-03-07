@@ -1425,6 +1425,154 @@ footer h2 {
 }
 
 /* ===========================
+   Channel Selection Modal
+   =========================== */
+.channel-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.channel-modal.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.channel-modal-content {
+  background: var(--surface);
+  border: 1px solid rgba(212, 168, 83, 0.15);
+  border-radius: var(--radius);
+  padding: 40px;
+  max-width: 440px;
+  width: 90%;
+  position: relative;
+  animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: var(--shadow-lg);
+}
+
+.channel-modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 1.5rem;
+  transition: color 0.2s ease;
+  padding: 4px 8px;
+}
+
+.channel-modal-close:hover {
+  color: var(--cream);
+}
+
+.channel-modal-content h2 {
+  color: var(--gold);
+  font-size: 1.8rem;
+  margin: 0 0 20px;
+  text-align: center;
+}
+
+.channel-order-summary {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 20px;
+  max-height: 200px;
+  overflow-y: auto;
+  font-size: 0.85rem;
+  color: var(--cream);
+  line-height: 1.6;
+}
+
+.channel-order-summary .summary-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 0;
+}
+
+.channel-order-summary .summary-total {
+  border-top: 1px solid rgba(212, 168, 83, 0.2);
+  margin-top: 8px;
+  padding-top: 8px;
+  color: var(--gold);
+  font-weight: 700;
+}
+
+.channel-prompt {
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin: 0 0 16px;
+}
+
+.channel-options {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.channel-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 20px 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius);
+  color: var(--cream);
+  transition: var(--transition);
+}
+
+.channel-btn:hover {
+  border-color: var(--gold);
+  background: rgba(212, 168, 83, 0.08);
+  transform: translateY(-2px);
+}
+
+.channel-btn:active {
+  transform: scale(0.95);
+}
+
+.channel-icon {
+  font-size: 1.8rem;
+}
+
+.channel-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.channel-status {
+  text-align: center;
+  margin-top: 16px;
+  font-size: 0.85rem;
+  color: var(--muted);
+  min-height: 20px;
+}
+
+.channel-status.success {
+  color: var(--gold);
+}
+
+.channel-status.error {
+  color: var(--crimson);
+}
+
+/* ===========================
    Custom Cursor
    =========================== */
 .custom-cursor {
