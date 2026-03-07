@@ -556,6 +556,23 @@ function initFAQ() {
   });
 }
 
+// ---------- Particle Field ----------
+
+function initParticles() {
+  const container = document.querySelector('.hero-particles');
+  if (!container) return;
+  for (let i = 0; i < 35; i++) {
+    const p = document.createElement('span');
+    p.className = 'particle';
+    p.style.left = Math.random() * 100 + '%';
+    p.style.setProperty('--duration', (8 + Math.random() * 12) + 's');
+    p.style.setProperty('--delay', (Math.random() * 10) + 's');
+    p.style.setProperty('--opacity', (0.15 + Math.random() * 0.35).toString());
+    p.style.width = p.style.height = (2 + Math.random() * 3) + 'px';
+    container.appendChild(p);
+  }
+}
+
 // ---------- Init ----------
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -572,6 +589,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initSectionAnimations();
   initScrollProgress();
   initHamburger();
+  initParticles();
   initRipples();
   initFAQ();
 });
