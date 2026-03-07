@@ -567,6 +567,52 @@ function initParticles() {
   }
 }
 
+// ---------- Custom Cursor ----------
+
+function initCustomCursor() {
+  const cursor = document.querySelector('.custom-cursor');
+  if (!cursor || window.matchMedia('(hover: none)').matches) return;
+
+  document.addEventListener('mousemove', (e) => {
+    cursor.style.left = e.clientX + 'px';
+    cursor.style.top = e.clientY + 'px';
+    if (!cursor.classList.contains('visible')) cursor.classList.add('visible');
+  });
+
+  document.addEventListener('mouseleave', () => cursor.classList.remove('visible'));
+  document.addEventListener('mouseenter', () => cursor.classList.add('visible'));
+
+  const interactives = 'a, button, .tab-btn, .card-btn, .btn, .faq-question, input, select, textarea';
+  document.addEventListener('mouseover', (e) => {
+    if (e.target.closest(interactives)) cursor.classList.add('hovering');
+  });
+  document.addEventListener('mouseout', (e) => {
+    if (e.target.closest(interactives)) cursor.classList.remove('hovering');
+  });
+}
+
+// ---------- Text Split Animations ----------
+
+function initTextSplit() {
+  document.querySelectorAll('section h2').forEach(h2 => {
+    const text = h2.textContent.trim();
+    h2.classList.add('split-heading');
+    h2.innerHTML = text.split(' ').map((word, i) =>
+      `<span class="word" style="--word-delay: ${i * 0.08}s">${word}</span>`
+    ).join(' ');
+  });
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.3 });
+
+  document.querySelectorAll('.split-heading').forEach(el => observer.observe(el));
+}
+
 // ---------- Init ----------
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -575,6 +621,7 @@ document.addEventListener("DOMContentLoaded", () => {
     emailjs.init("qId7LYirAJei2KgDK");
   }
 
+  initTextSplit();
   renderMenu("all");
   initTabs();
   initOrderForm();
@@ -586,4 +633,5 @@ document.addEventListener("DOMContentLoaded", () => {
   initParticles();
   initRipples();
   initFAQ();
+  initCustomCursor();
 });
