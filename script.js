@@ -510,27 +510,46 @@ async function sendViaChannel(channel) {
 
   status.textContent = "Sending...";
 
+  const itemsList = order.items.map(i => `${i.name} (${i.option}) x${i.qty} — $${(i.price * i.qty).toFixed(2)}`).join("\n");
+
+  const onSuccess = () => {
+    status.textContent = "Order sent!";
+    status.className = "channel-status success";
+    setTimeout(() => {
+      closeChannelModal();
+      showConfirmation(order.customer.name, order.date, order.delivery.method, order.total);
+      cart = [];
+      updateCartUI();
+      document.getElementById("order-form").reset();
+    }, 1500);
+  };
+
   try {
-    const res = await fetch("/api/order", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ channel, ...order })
-    });
-
-    const data = await res.json();
-
-    if (data.success) {
-      status.textContent = "Order sent!";
-      status.className = "channel-status success";
-      setTimeout(() => {
-        closeChannelModal();
-        showConfirmation(order.customer.name, order.date, order.delivery.method, order.total);
-        cart = [];
-        updateCartUI();
-        document.getElementById("order-form").reset();
-      }, 1500);
+    if (channel === "email") {
+      await emailjs.send("service_leifomr", "template_p969v3g", {
+        customer_name: order.customer.name,
+        customer_phone: order.customer.phone,
+        items_list: itemsList,
+        delivery_method: order.delivery.method,
+        delivery_fee: `$${order.delivery.fee.toFixed(2)}`,
+        subtotal: `$${order.subtotal.toFixed(2)}`,
+        total: `$${order.total.toFixed(2)}`,
+        order_date: order.date,
+        special_instructions: order.instructions || "None"
+      }, "qId7LYirAJei2KgDK");
+      onSuccess();
     } else {
-      throw new Error(data.error || "Failed to send order");
+      const res = await fetch("/api/order", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ channel, ...order })
+      });
+      const data = await res.json();
+      if (data.success) {
+        onSuccess();
+      } else {
+        throw new Error(data.error || "Failed to send order");
+      }
     }
   } catch (err) {
     console.error("Order send error:", err);

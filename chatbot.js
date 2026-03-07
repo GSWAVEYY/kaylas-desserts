@@ -250,19 +250,34 @@ async function sendOrder(channel) {
 
   sendBotMessage("Sending your order...");
 
+  const itemsList = chatOrder.items.map(i => `${i.name} (${i.option}) x${i.qty} — $${(i.price * i.qty).toFixed(2)}`).join("\n");
+
   try {
-    const res = await fetch("/api/order", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ channel, ...chatOrder })
-    });
-
-    const data = await res.json();
-
-    if (data.success) {
+    if (channel === "email") {
+      await emailjs.send("service_leifomr", "template_p969v3g", {
+        customer_name: chatOrder.customer.name,
+        customer_phone: chatOrder.customer.phone,
+        items_list: itemsList,
+        delivery_method: chatOrder.delivery.method,
+        delivery_fee: `$${chatOrder.delivery.fee.toFixed(2)}`,
+        subtotal: `$${chatOrder.subtotal.toFixed(2)}`,
+        total: `$${chatOrder.total.toFixed(2)}`,
+        order_date: chatOrder.date,
+        special_instructions: chatOrder.instructions || "None"
+      }, "qId7LYirAJei2KgDK");
       sendBotMessage("Order sent! Kayla will confirm shortly. Thank you! 🎉");
     } else {
-      throw new Error(data.error);
+      const res = await fetch("/api/order", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ channel, ...chatOrder })
+      });
+      const data = await res.json();
+      if (data.success) {
+        sendBotMessage("Order sent! Kayla will confirm shortly. Thank you! 🎉");
+      } else {
+        throw new Error(data.error);
+      }
     }
   } catch (err) {
     console.error("Chatbot order error:", err);
