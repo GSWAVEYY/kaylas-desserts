@@ -282,6 +282,25 @@
     </div>
   </footer>
 
+  <!-- Chatbot Widget -->
+  <div class="chatbot" id="chatbot">
+    <button class="chatbot-toggle" id="chatbot-toggle" aria-label="Open ordering assistant">
+      <span class="chatbot-toggle-icon">💬</span>
+      <span class="chatbot-toggle-close">&times;</span>
+    </button>
+    <div class="chatbot-panel" id="chatbot-panel">
+      <div class="chatbot-header">
+        <h3>Order Assistant</h3>
+        <span class="chatbot-header-sub">Kayla's Desserts</span>
+      </div>
+      <div class="chatbot-messages" id="chatbot-messages"></div>
+      <div class="chatbot-input-area" id="chatbot-input-area">
+        <input type="text" class="chatbot-input" id="chatbot-input" placeholder="Type a message..." autocomplete="off">
+        <button class="chatbot-send" id="chatbot-send" aria-label="Send">→</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Channel Selection Modal -->
   <div class="channel-modal" id="channel-modal" aria-hidden="true">
     <div class="channel-modal-content">
