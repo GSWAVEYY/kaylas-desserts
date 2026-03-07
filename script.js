@@ -410,69 +410,153 @@ function showFieldError(input, message) {
   input.parentElement.appendChild(msg);
 }
 
-function submitOrder() {
+// ---------- Channel Selection Modal ----------
+
+let pendingOrder = null;
+
+function buildOrderPayload() {
   const name = document.getElementById("customer-name").value.trim();
   const phone = document.getElementById("customer-phone").value.trim();
   const deliveryMethod = document.getElementById("delivery-method");
   const deliveryLabel = deliveryMethod.options[deliveryMethod.selectedIndex].text;
+  const deliveryKey = deliveryMethod.value;
   const date = document.getElementById("order-date").value;
   const instructions = document.getElementById("special-instructions").value.trim();
-  const deliveryFee = deliveryFees[deliveryMethod.value] || 0;
+  const deliveryFee = deliveryFees[deliveryKey] || 0;
   const subtotal = cart.reduce((sum, c) => sum + c.price * c.qty, 0);
   const total = subtotal + deliveryFee;
 
-  const itemsList = cart.map(c => `${c.name} x${c.qty} — $${(c.price * c.qty).toFixed(2)}`).join("\n");
-
-  const submitBtn = document.querySelector('#order-form button[type="submit"]');
-  submitBtn.disabled = true;
-  submitBtn.classList.add("loading");
-  submitBtn.textContent = "Sending...";
-
-  // EmailJS integration
-  const EMAILJS_PUBLIC_KEY = "qId7LYirAJei2KgDK";
-  const EMAILJS_SERVICE_ID = "service_leifomr";
-  const EMAILJS_TEMPLATE_ID = "template_p969v3g";
-
-  const templateParams = {
-    customer_name: name,
-    customer_phone: phone,
-    items_list: itemsList,
-    delivery_method: deliveryLabel,
-    delivery_fee: `$${deliveryFee.toFixed(2)}`,
-    subtotal: `$${subtotal.toFixed(2)}`,
-    total: `$${total.toFixed(2)}`,
-    order_date: date,
-    special_instructions: instructions || "None",
+  return {
+    customer: { name, phone },
+    items: cart.map(c => ({
+      name: c.name,
+      option: c.optionLabel,
+      qty: c.qty,
+      price: c.price
+    })),
+    delivery: { method: deliveryLabel, fee: deliveryFee },
+    date,
+    instructions: instructions || "None",
+    subtotal,
+    total
   };
+}
 
-  // If EmailJS is not configured yet, skip the API call and show confirmation
-  if (EMAILJS_PUBLIC_KEY === "YOUR_PUBLIC_KEY") {
-    console.log("EmailJS not configured yet. Order details:", templateParams);
-    // Simulate a brief loading state
-    setTimeout(() => {
-      showConfirmation(name, date, deliveryLabel, total);
-      submitBtn.disabled = false;
-      submitBtn.classList.remove("loading");
-      submitBtn.textContent = "Submit Order";
-    }, 800);
+function showChannelModal(order) {
+  pendingOrder = order;
+  const modal = document.getElementById("channel-modal");
+  const summary = document.getElementById("channel-order-summary");
+  const status = document.getElementById("channel-status");
+
+  const itemsHtml = order.items.map(i =>
+    `<div class="summary-item"><span>${i.name} (${i.option}) x${i.qty}</span><span>$${(i.price * i.qty).toFixed(2)}</span></div>`
+  ).join("");
+
+  summary.innerHTML = `
+    ${itemsHtml}
+    <div class="summary-item"><span>Delivery: ${order.delivery.method}</span><span>$${order.delivery.fee.toFixed(2)}</span></div>
+    <div class="summary-item summary-total"><span>Total</span><span>$${order.total.toFixed(2)}</span></div>
+  `;
+
+  status.textContent = "";
+  status.className = "channel-status";
+  modal.classList.add("active");
+  modal.setAttribute("aria-hidden", "false");
+}
+
+function closeChannelModal() {
+  const modal = document.getElementById("channel-modal");
+  modal.classList.remove("active");
+  modal.setAttribute("aria-hidden", "true");
+  pendingOrder = null;
+}
+
+function formatOrderText(order) {
+  const items = order.items.map(i => `${i.name} (${i.option}) x${i.qty} — $${(i.price * i.qty).toFixed(2)}`).join("\n");
+  return `NEW ORDER from ${order.customer.name}\n` +
+    `Phone: ${order.customer.phone}\n` +
+    `Date: ${order.date}\n\n` +
+    `Items:\n${items}\n\n` +
+    `Delivery: ${order.delivery.method} — $${order.delivery.fee.toFixed(2)}\n` +
+    `Total: $${order.total.toFixed(2)}\n\n` +
+    `Special Instructions: ${order.instructions}`;
+}
+
+async function sendViaChannel(channel) {
+  if (!pendingOrder) return;
+  const status = document.getElementById("channel-status");
+  const order = pendingOrder;
+
+  if (channel === "instagram") {
+    const orderText = formatOrderText(order);
+    try {
+      await navigator.clipboard.writeText(orderText);
+      window.open("https://ig.me/m/kaylas_desserts_05", "_blank");
+      status.textContent = "Order copied! Paste it in the Instagram DM.";
+      status.className = "channel-status success";
+      setTimeout(() => {
+        closeChannelModal();
+        showConfirmation(order.customer.name, order.date, order.delivery.method, order.total);
+        cart = [];
+        updateCartUI();
+        document.getElementById("order-form").reset();
+      }, 2000);
+    } catch (err) {
+      status.textContent = "Couldn't copy to clipboard. Please screenshot your order.";
+      status.className = "channel-status error";
+    }
     return;
   }
 
-  emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
-    .then(() => {
-      showConfirmation(name, date, deliveryLabel, total);
-    })
-    .catch((err) => {
-      console.error("EmailJS error:", err);
-      console.error("EmailJS error status:", err.status);
-      console.error("EmailJS error text:", err.text);
-      showToast("Something went wrong. Please DM @kaylas_desserts_05 on Instagram to place your order.");
-    })
-    .finally(() => {
-      submitBtn.disabled = false;
-      submitBtn.classList.remove("loading");
-      submitBtn.textContent = "Submit Order";
+  status.textContent = "Sending...";
+
+  try {
+    const res = await fetch("/api/order", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ channel, ...order })
     });
+
+    const data = await res.json();
+
+    if (data.success) {
+      status.textContent = "Order sent!";
+      status.className = "channel-status success";
+      setTimeout(() => {
+        closeChannelModal();
+        showConfirmation(order.customer.name, order.date, order.delivery.method, order.total);
+        cart = [];
+        updateCartUI();
+        document.getElementById("order-form").reset();
+      }, 1500);
+    } else {
+      throw new Error(data.error || "Failed to send order");
+    }
+  } catch (err) {
+    console.error("Order send error:", err);
+    status.textContent = "Something went wrong. Try another method or DM @kaylas_desserts_05.";
+    status.className = "channel-status error";
+  }
+}
+
+function initChannelModal() {
+  const modal = document.getElementById("channel-modal");
+  if (!modal) return;
+
+  modal.querySelector(".channel-modal-close").addEventListener("click", closeChannelModal);
+
+  modal.addEventListener("click", (e) => {
+    if (e.target === modal) closeChannelModal();
+  });
+
+  modal.querySelectorAll(".channel-btn").forEach(btn => {
+    btn.addEventListener("click", () => sendViaChannel(btn.dataset.channel));
+  });
+}
+
+function submitOrder() {
+  const order = buildOrderPayload();
+  showChannelModal(order);
 }
 
 function showConfirmation(name, date, deliveryLabel, total) {
@@ -702,6 +786,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initParticles();
   initRipples();
   initFAQ();
+  initChannelModal();
   initCustomCursor();
   initCardTilt();
   initMagneticButtons();
