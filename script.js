@@ -74,12 +74,6 @@ const menuItems = [
   },
 ];
 
-const categoryGradients = {
-  cakes: "linear-gradient(135deg, #FFF0F3, #FCE4EC)",
-  desserts: "linear-gradient(135deg, #F3F4F6, #E5E7EB)",
-  treats: "linear-gradient(135deg, #FFF0F3, #FECDD3)",
-};
-
 const deliveryFees = { pickup: 0, rancho: 10, sacramento: 17.50, farther: 22.50 };
 
 let cart = [];
@@ -117,8 +111,8 @@ function renderMenu(category) {
 
     return `
       <div class="menu-card fade-in" data-category="${item.category}" style="--delay: ${index * 0.1}s">
-        <div class="card-image" style="background: ${categoryGradients[item.category]};">
-          <span style="font-size:4rem;display:flex;align-items:center;justify-content:center;height:100%">${item.emoji}</span>
+        <div class="card-image">
+          <span class="card-image-text">${item.name}</span>
         </div>
         <div class="card-body">
           <h3 class="card-name">${item.name}</h3>
