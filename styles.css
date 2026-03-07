@@ -1231,59 +1231,75 @@ section h2::after {
 #about {
   position: relative;
   overflow: hidden;
+  background: var(--bg);
+  padding: 160px 20px;
 }
 
-/* Diagonal split background */
 #about::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(155deg, var(--cream) 50%, var(--gray-light) 50%);
+  background: radial-gradient(ellipse at 20% 50%, rgba(26, 35, 50, 0.4) 0%, transparent 60%);
   pointer-events: none;
 }
 
 #about h2 {
-  color: var(--pink);
-  font-size: 2.2rem;
-  margin: 0 0 40px;
+  color: var(--gold);
+  font-size: 2.5rem;
+  margin: 0 0 60px;
   position: relative;
 }
 
 .about-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 40px;
+  gap: 48px;
   align-items: center;
   max-width: 1000px;
   margin: 0 auto;
   position: relative;
 }
 
-.image-placeholder {
-  height: 300px;
-  border-radius: var(--radius);
-  background: linear-gradient(135deg, var(--pink-light), var(--gray-light));
+.about-monogram {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: 4rem;
-  box-shadow: var(--shadow);
-  transition: var(--transition-slow);
+  gap: 16px;
 }
 
-.image-placeholder:hover {
-  transform: scale(1.02);
-  box-shadow: var(--shadow-lg);
+.monogram-letter {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 8rem;
+  color: var(--gold);
+  opacity: 0.2;
+  line-height: 1;
+}
+
+.monogram-line {
+  width: 60px;
+  height: 1px;
+  background: var(--gold);
+  opacity: 0.3;
 }
 
 .about-text p {
-  margin: 0 0 18px;
-  line-height: 1.85;
+  color: var(--cream);
+  margin: 0 0 24px;
+  line-height: 1.9;
+  font-size: 1.05rem;
   position: relative;
 }
 
 .about-text p:last-child {
   margin-bottom: 0;
+}
+
+@media (min-width: 768px) {
+  .about-grid {
+    grid-template-columns: 1fr 1.5fr;
+    gap: 80px;
+  }
 }
 
 /* ===========================
@@ -1481,9 +1497,6 @@ footer h2 {
     grid-template-columns: repeat(3, 1fr);
   }
 
-  .about-grid {
-    grid-template-columns: 1fr 1fr;
-  }
 
   .testimonials-grid {
     grid-template-columns: repeat(2, 1fr);
