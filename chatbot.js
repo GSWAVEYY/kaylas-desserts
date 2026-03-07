@@ -33,15 +33,27 @@ function initChatbot() {
 
   if (!toggle || !chatbot) return;
 
-  toggle.addEventListener("click", () => {
-    chatbot.classList.toggle("open");
-    if (chatbot.classList.contains("open") && chatState === chatStates.GREETING) {
+  function showGreeting() {
+    if (chatState === chatStates.GREETING) {
       sendBotMessage("Hey! I'm Kayla's ordering assistant. Ready to build your order?", [
         { label: "Start Order", value: "start" },
         { label: "View Menu", value: "menu" }
       ]);
     }
+  }
+
+  toggle.addEventListener("click", () => {
+    chatbot.classList.toggle("open");
+    if (chatbot.classList.contains("open")) showGreeting();
   });
+
+  // Auto-open after a short delay so visitors notice the chatbot
+  setTimeout(() => {
+    if (!chatbot.classList.contains("open")) {
+      chatbot.classList.add("open");
+      showGreeting();
+    }
+  }, 1500);
 
   sendBtn.addEventListener("click", handleUserInput);
   input.addEventListener("keydown", (e) => {
@@ -67,10 +79,8 @@ function handleOptionClick(value, label) {
 function processInput(input) {
   switch (chatState) {
     case chatStates.GREETING:
-      if (input === "start" || input === "menu") {
-        chatState = chatStates.CATEGORY;
-        showCategories();
-      }
+      chatState = chatStates.CATEGORY;
+      showCategories();
       break;
 
     case chatStates.CATEGORY:
