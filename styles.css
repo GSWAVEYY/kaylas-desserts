@@ -119,28 +119,16 @@ nav {
   left: 0;
   width: 100%;
   z-index: 100;
-  background: rgba(250, 250, 250, 0.75);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  transition: var(--transition);
+  background: transparent;
+  transition: background 0.4s ease, border-color 0.4s ease;
   border-bottom: 1px solid transparent;
 }
 
 nav.scrolled {
-  background: rgba(250, 250, 250, 0.97);
-  box-shadow: 0 2px 30px rgba(0, 0, 0, 0.06);
-  border-bottom: 1px solid rgba(232, 88, 122, 0.15);
-}
-
-nav.scrolled::after {
-  content: '';
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, var(--pink), transparent);
-  opacity: 0.5;
+  background: rgba(10, 10, 10, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(212, 168, 83, 0.15);
 }
 
 .nav-container {
@@ -153,10 +141,11 @@ nav.scrolled::after {
 }
 
 .logo {
-  font-family: 'Pacifico', cursive;
-  color: var(--pink);
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  color: var(--gold);
   font-size: 1.5rem;
-  position: relative;
+  font-weight: 500;
   display: flex;
   align-items: center;
   gap: 4px;
@@ -171,11 +160,14 @@ nav.scrolled::after {
 }
 
 .nav-links a {
-  font-weight: 600;
-  font-size: 0.95rem;
-  transition: var(--transition);
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 0.9rem;
+  color: var(--cream);
+  transition: color 0.3s ease;
   position: relative;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
 
 .nav-links a::after {
@@ -184,14 +176,14 @@ nav.scrolled::after {
   bottom: -4px;
   left: 0;
   width: 0;
-  height: 2px;
-  background: var(--pink);
-  transition: var(--transition);
-  border-radius: 2px;
+  height: 1px;
+  background: var(--gold);
+  transition: width 0.3s ease;
+  border-radius: 0;
 }
 
 .nav-links a:hover {
-  color: var(--pink);
+  color: var(--gold);
 }
 
 .nav-links a:hover::after {
@@ -215,7 +207,7 @@ nav.scrolled::after {
   display: block;
   width: 24px;
   height: 2.5px;
-  background: var(--dark);
+  background: var(--cream);
   border-radius: 2px;
   transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   transform-origin: center;
@@ -243,7 +235,7 @@ nav.scrolled::after {
   left: 0;
   width: 100%;
   height: 100vh;
-  background: rgba(250, 250, 250, 0.97);
+  background: rgba(10, 10, 10, 0.97);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   align-items: center;
@@ -259,8 +251,10 @@ nav.scrolled::after {
 }
 
 .nav-links.mobile-open a {
-  font-size: 1.5rem;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
   font-weight: 700;
+  color: var(--cream);
 }
 
 .cart-btn {
@@ -270,6 +264,7 @@ nav.scrolled::after {
   font-size: 1.4rem;
   padding: 8px;
   transition: var(--transition);
+  color: var(--cream);
 }
 
 .cart-btn:hover {
@@ -280,7 +275,7 @@ nav.scrolled::after {
   position: absolute;
   top: 0;
   right: 0;
-  background: var(--pink);
+  background: var(--crimson);
   color: white;
   font-size: 0.7rem;
   font-weight: 700;
@@ -300,7 +295,7 @@ nav.scrolled::after {
 
 @keyframes badgePulse {
   0% { transform: scale(1); }
-  50% { transform: scale(1.5); background: #ff6b81; }
+  50% { transform: scale(1.5); background: var(--crimson); }
   100% { transform: scale(1); }
 }
 
