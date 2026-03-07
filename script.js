@@ -480,7 +480,7 @@ function showConfirmation(name, date, deliveryLabel, total) {
   overlay.className = "order-confirmation";
   overlay.innerHTML = `
     <div class="confirmation-content">
-      <h2 style="font-family:'Inter',sans-serif;font-weight:800;color:#E8587A;">Order Submitted!</h2>
+      <h2 style="font-family:'Playfair Display',serif;font-weight:700;color:#D4A853;">Order Submitted!</h2>
       <p style="font-size:3rem;margin:0.5rem 0;">🎉</p>
       <p>Thank you, <strong>${name}</strong>! Kayla will confirm your order shortly.</p>
       <p><strong>Order date:</strong> ${date}</p>
