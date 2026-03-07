@@ -47,13 +47,14 @@ function initChatbot() {
     if (chatbot.classList.contains("open")) showGreeting();
   });
 
-  // Auto-open after a short delay so visitors notice the chatbot
+  // Auto-open after a delay — longer on mobile so visitors see the site first
+  const isMobile = window.innerWidth < 768;
   setTimeout(() => {
     if (!chatbot.classList.contains("open")) {
       chatbot.classList.add("open");
       showGreeting();
     }
-  }, 1500);
+  }, isMobile ? 3000 : 1500);
 
   sendBtn.addEventListener("click", handleUserInput);
   input.addEventListener("keydown", (e) => {
