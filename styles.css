@@ -106,7 +106,7 @@ button {
 }
 
 section {
-  padding: 100px 20px;
+  padding: 140px 20px;
   position: relative;
 }
 
@@ -771,22 +771,6 @@ section h2::after {
   font-weight: 600;
 }
 
-/* ===========================
-   SVG Section Dividers
-   =========================== */
-.section-divider {
-  display: block;
-  width: 100%;
-  height: auto;
-  margin-bottom: -2px;
-}
-
-.section-divider-top {
-  display: block;
-  width: 100%;
-  height: auto;
-  margin-top: -2px;
-}
 
 /* ===========================
    Order Section
@@ -1279,13 +1263,6 @@ section h2::after {
 /* ===========================
    Footer
    =========================== */
-.wave-divider {
-  display: block;
-  width: 100%;
-  height: auto;
-  margin-bottom: -2px;
-}
-
 footer {
   background: var(--surface);
   color: var(--cream);
@@ -1533,6 +1510,6 @@ footer h2 {
   }
 
   section {
-    padding: 120px 20px;
+    padding: 180px 20px;
   }
 }
